@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+
 import PropTypes from 'prop-types';
 
 function Listing(props) {
