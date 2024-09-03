@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import data from './components/data';
+import data from './components/data.json';
 import Listing from './components/Listing';
 
 function App() {

@@ -1,21 +1,39 @@
-/* eslint-disable jsx-a11y/alt-text */
-
+import React from 'react';
 import PropTypes from 'prop-types';
-
-function Listing(props) {
-  const { items } = props;
-
+  
+  function Listing(props: {items: Array<{
+    listing_id: number, 
+      url: string,
+      MainImage?: {url_570xN: string};
+      title?: string;
+      currency_code: string; 
+      price: string; 
+      quantity: number;
+  }>}) {
+    const {items} = props;
+  
   const list = items.map(({ 
     listing_id, 
     url, 
-    MainImage = false, 
+    MainImage, 
     title = '', 
     currency_code, 
-    price = 0, 
+    price = '0', 
     quantity = 0,
-    }) => {
+    }: {
+      listing_id: number, 
+      url: string,
+      MainImage?: {url_570xN: string};
+      title?: string;
+      currency_code: string; 
+      price: string; 
+      quantity: number;}) => {
     
-    let symbol;
+    if(url === undefined) {
+      return null;
+    }
+    
+        let symbol;
     
     switch (currency_code) {
       case 'USD':
@@ -43,16 +61,15 @@ function Listing(props) {
       <div className ={url && MainImage ? 'item' : 'hidden'} key={listing_id} >
         <div className="item-image">
           <a href={url}>
-            <img src={MainImage.url_570xN}/>
+            {MainImage && <img src={MainImage.url_570xN} alt='' />}
           </a>
         </div>
         <div className="item-details">
-          <p className="item-title">{title.length > 50 ? title.slice(0, 50) + '...' : title}</p>
+          <p className="item-title">{title && title.length > 50 ? title.slice(0, 50) + '...' : title}</p>
           <p className="item-price">{symbol}</p>
           <p className={quantityStyle}>{quantity + ' left'}</p>
         </div>
       </div>
-    
     );
   });
 
@@ -61,7 +78,7 @@ function Listing(props) {
       {list}
     </div>
   );
-}
+};
 
 Listing.defaultProps = {
   items: []
@@ -70,5 +87,6 @@ Listing.defaultProps = {
 Listing.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object).isRequired
 };
+
 
 export default Listing;
